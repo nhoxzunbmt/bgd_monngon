@@ -4,33 +4,53 @@ const state = {
 };
 
 const mutations = {
-  BUY_STOCKS(state, {stockId,quantity,stockPrice}) {
+  'BUY_STOCK'(state, {stockId,quantity,stockPrice}) {
     const record = state.stocks.find(elm => elm.id == stockId)
     if(record) {
       record.quantity += quantity;
     }
     else{
-      state.stocks
+      state.stocks.push({
+        id : stockId,
+        quantity: quantity,
+        price: stockPrice
+      })
     }
+    state.funds -= stockPrice * quantity
+    console.log('Funds : ' + state.funds)
   },
-  RND_STOCKS(state) {}
+  'SELL_STOCK'(state, {stockId,quantity,stockPrice}) {
+    const record = state.stocks.find(elm => elm.id == stockId)
+    if(record.quantity > quantity) {
+      record.quantity -= quantity;
+    }
+    else{
+      state.stocks.splice(state.stocks.indexOf(record,1))
+    }
+    state.funds += stockPrice * quantity
+  }
 };
 
 const actions = {
-  buyStock: ({ commit }, order) => {
-    commit();
-  },
-  initStocks: ({ commit }, order) => {
-    commit("SET_STOCKS", stocks);
-  },
-  radomizeStocks: ({ commit }) => {
-    commit("RND_STOCKS");
+  sellStocks: ({ commit }, order) => {
+    commit("SELL_STOCK", order);
   }
 };
 
 const getters = {
-  stocks: state => {
-    return state.stocks;
+  stockPortfolio(state,getters){
+    return state.stocks.map(stock => {
+      const record = getters.stocks.find(elm => elm.id == stockId)
+      return {
+        id: stock.id,
+        quantity: stock.quantity,
+        name: record.name,
+        price: record.price
+      }
+    });
+  },
+  funs(state){
+    return state.funds
   }
 };
 
