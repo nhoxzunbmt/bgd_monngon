@@ -12,7 +12,6 @@
       <div class="pull-right">
         <button class="btn btn-success" @click="buyStock" :disabled="quantity <= 0">Buy</button>
 
-        <button class="btn btn-success" @click="test">TEST</button>
       </div>
 
 
@@ -33,10 +32,6 @@ export default {
     };
   },
   methods: {
-    test() {
-      let isInteger = Number.isInteger(this.quantity);
-      console.log(isInteger);
-    },
     buyStock() {
       const order = {
         stockId: this.stock.id,

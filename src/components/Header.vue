@@ -16,12 +16,14 @@
 
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse navbar-ex1-collapse">
+
         <ul class="nav navbar-nav">
-<li><router-link to="/portfolio" activeClass="active" tag="a">Portfolio</router-link>
-</li>
-<li><router-link to="/stocks" activeClass="active" tag="a">Stocks</router-link>
-</li>
+          <li><router-link to="/portfolio" activeClass="active" tag="a">Portfolio</router-link>
+          </li>
+          <li><router-link to="/stocks" activeClass="active" tag="a">Stocks</router-link>
+          </li>
         </ul>
+      <strong class="navbar-text navbar-right">{{ funds }}$</strong>
 
         <ul class="nav navbar-nav navbar-right">
           <li><a href="#">Link</a></li>
@@ -36,13 +38,20 @@
           </li>
         </ul>
       </div><!-- /.navbar-collapse -->
+
     </nav>
 
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  computed: {
+    funds() {
+        return this.$store.getters.funds
+    }
+  }
+};
 </script>
 
 <style scoped>
