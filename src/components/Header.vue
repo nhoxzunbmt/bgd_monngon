@@ -23,20 +23,15 @@
           <li><router-link to="/stocks" activeClass="active" tag="a">Stocks</router-link>
           </li>
         </ul>
-      <strong class="navbar-text navbar-right">{{ funds }}$</strong>
+      <strong class="navbar-text navbar-right">{{ funds | currency }}</strong>
 
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="#">Link</a></li>
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-            <ul class="dropdown-menu">
-              <li><a href="#">Action</a></li>
-              <li><a href="#">Another action</a></li>
-              <li><a href="#">Something else here</a></li>
-              <li><a href="#">Separated link</a></li>
-            </ul>
-          </li>
+          <li><a href="#">End Day</a></li>
+          <li><a href="#" @click="saveData">Save Data</a></li>
+                    <li><a href="#" @click="loadData">Load Data</a></li>
+
         </ul>
+
       </div><!-- /.navbar-collapse -->
 
     </nav>
@@ -45,10 +40,27 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 export default {
   computed: {
     funds() {
         return this.$store.getters.funds
+    }
+  },
+  methods:{
+    ...mapActions({
+      fetchData: 'loadData'
+    }),
+    saveData(){
+       const data = {
+         funds : this.$store.getters.funds,
+         stocks: this.$store.getters.stocks,
+         stocksPorfolio: this.$store.getters.stockPortfolio,
+       }
+       this.$http.put('data.json',data)
+    },
+    loadData(){
+        this.fetchData();
     }
   }
 };

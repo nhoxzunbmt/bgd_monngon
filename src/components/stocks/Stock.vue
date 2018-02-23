@@ -37,7 +37,7 @@ export default {
   },
   computed: {
     funds(){
-      return this.$store.getters.funds  
+      return this.$store.getters.funds
     },
     isQuantityValid() {
       return this.quantity * this.stock.price > this.funds;
@@ -45,6 +45,11 @@ export default {
   },
   methods: {
     buyStock() {
+      if(this.funds < this.quantity * this.stock.price)
+      {
+        alert('Khong du tien');
+        return false;
+      }
       const order = {
         stockId: this.stock.id,
         stockPrice: this.stock.price,
